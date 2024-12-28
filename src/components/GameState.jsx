@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import GamePieces from './GamePieces'
 
 const GameState = () => {
  
@@ -21,7 +22,7 @@ const GameState = () => {
                 )
             }{
                 !gameOver && (
-                    <GameState/>
+                    <GamePieces/>
                 )
             }
         </div>
