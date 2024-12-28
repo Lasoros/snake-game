@@ -36,10 +36,68 @@ const GamePieces = () => {
       cntxt.closePath();
     };
 
+    const snakeMove = () => {
+      if (direction) {
+        setSnake((prevSnake) => {
+          const newSnake = [...prevSnake];
+          const snakeHead = { x: newSnake[0].x, y: newSnake[0].y };
+
+          for (let i = newSnake.length - 1; i > 0; i--) {
+            newSnake[i].x = newSnake[i - 1].x;
+            newSnake[i].y = newSnake[i - 1].y;
+          }
+
+          switch (direction) {
+            case "right":
+              snakeHead.x += SNAKE_SPEED;
+              break;
+            case "left":
+              snakeHead.x -= SNAKE_SPEED;
+              break;
+            case "up":
+              snakeHead.y -= SNAKE_SPEED;
+              break;
+            case "down":
+              snakeHead.y += SNAKE_SPEED;
+              break;
+            default:
+              break;
+          }
+
+          newSnake[0] = snakeHead;
+
+          return newSnake;
+        });
+      }
+    };
+
+    const handleKeyPress = (e) => {
+      switch (e.key) {
+        case "ArrowRight":
+          setDirection("right");
+          break;
+        case "ArrowLeft":
+          setDirection("left");
+          break;
+        case "ArrowUp":
+          setDirection("up");
+          break;
+        case "ArrowDown":
+          setDirection("down");
+          break;
+
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+
     const interval = setInterval(() => {
       cntxt.clearRect(0, 0, canvas.width, canvas.height);
       drawSnake();
       drawApple();
+      snakeMove();
     }, 100);
 
     return () => {
