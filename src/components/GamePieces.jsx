@@ -22,7 +22,7 @@ const GamePieces = ({ score, setScore, onGameOver }) => {
       snake.forEach((snakePart) => {
         cntxt.beginPath();
         cntxt.rect(snakePart.x, snakePart.y, 14, 14);
-        cntxt.fillSyle = "#90EE90";
+        cntxt.fillStyle = "#90EE90";
         cntxt.fill();
         cntxt.closePath();
       });
@@ -31,7 +31,7 @@ const GamePieces = ({ score, setScore, onGameOver }) => {
     const drawApple = () => {
       cntxt.beginPath();
       cntxt.rect(apple.x, apple.y, 14, 14);
-      cntxt.fillSyle = "#FF0000";
+      cntxt.fillStyle = "#FF0000";
       cntxt.fill();
       cntxt.closePath();
     };
@@ -67,9 +67,36 @@ const GamePieces = ({ score, setScore, onGameOver }) => {
           newSnake[0] = snakeHead;
 
           handleAppleHit(newSnake);
+          handleWallHit(snakeHead);
+          handleBodyHit(newSnake);
 
           return newSnake;
         });
+      }
+    };
+
+    const handleBodyHit = (newSnake) => {
+      const snakeHead = newSnake[0];
+      for (let i = 1; i < newSnake.length; i++) {
+        if (snakeHead.x === newSnake[i].x && snakeHead.y === newSnake[i].y) {
+          onGameOver("self");
+        }
+      }
+    };
+
+    const handleWallHit = (snakeHead) => {
+      if (
+        snakeHead.x + SNAKE_SPEED > canvas.width ||
+        snakeHead.x + SNAKE_SPEED < 0
+      ) {
+        onGameOver("wall");
+      }
+
+      if (
+        snakeHead.y + SNAKE_SPEED > canvas.width ||
+        snakeHead.y + SNAKE_SPEED < 0
+      ) {
+        onGameOver("wall");
       }
     };
 
