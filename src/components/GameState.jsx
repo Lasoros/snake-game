@@ -25,7 +25,13 @@ const GameState = () => {
           <p>Please Press Enter To Reset The Game</p>
         </div>
       )}
-      {!gameOver && <GamePieces />}
+      {!gameOver && (
+        <GamePieces
+          score={score}
+          setScore={setScore}
+          onGameOver={(type) => handleGameOver(type)}
+        />
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const GamePieces = () => {
+const GamePieces = ({ score, setScore, onGameOver }) => {
   const canvasRef = useRef();
   const SNAKE_SPEED = 10;
   const [apple, setApple] = useState({ x: 180, y: 100 });
@@ -8,6 +8,32 @@ const GamePieces = () => {
     { x: 100, y: 50 },
     { x: 95, y: 50 },
   ]);
+
+  const handleGameOver = (type) => {
+    setGameOver(true);
+
+    if (score > highScore) {
+      setHighScore(score);
+      localStorage.setItem("highScore", score.toString());
+    }
+
+    setCollisionType(type);
+  };
+
+  const handleResetGame = () => {
+    setScore(0);
+    setGameOver(false);
+  };
+
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (gameOver && e.key === "Enter") {
+        handleResetGame();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+  }, [gameOver]);
 
   const [direction, setDirection] = useState(null);
 
@@ -66,7 +92,31 @@ const GamePieces = () => {
 
           newSnake[0] = snakeHead;
 
+          handleAppleHit(newSnake);
+
           return newSnake;
+        });
+      }
+    };
+
+    const handleAppleHit = (newSnake) => {
+      const snakeHead = newSnake[0];
+
+      if (snakeHead.x === apple.x && snakeHead.y === apple.y) {
+        setScore(score++);
+
+        setApple({
+          x:
+            Math.floor((Math.random() * canvas.width) / SNAKE_SPEED) *
+            SNAKE_SPEED,
+          y:
+            Math.floor((Math.random() * canvas.height) / SNAKE_SPEED) *
+            SNAKE_SPEED,
+        });
+
+        newSnake.push({
+          x: newSnake[newSnake.length - 1].x,
+          y: newSnake[newSnake.length - 1].y,
         });
       }
     };
