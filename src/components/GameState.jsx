@@ -9,6 +9,32 @@ const GameState = () => {
   const [gameOver, setGameOver] = useState(false);
   const [collision, setCollisionType] = useState("");
 
+  const handleGameOver = (type) => {
+    setGameOver(true);
+
+    if (score > highScore) {
+      setHighScore(score);
+      localStorage.setItem("highScore", score.toString());
+    }
+
+    setCollisionType(type);
+  };
+
+  const handleResetGame = () => {
+    setScore(0);
+    setGameOver(false);
+  };
+
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (gameOver && e.key === "Enter") {
+        handleResetGame();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+  }, [gameOver]);
+
   return (
     <div>
       <p>Score: {score}</p>

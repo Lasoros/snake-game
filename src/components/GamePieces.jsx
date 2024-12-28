@@ -9,32 +9,6 @@ const GamePieces = ({ score, setScore, onGameOver }) => {
     { x: 95, y: 50 },
   ]);
 
-  const handleGameOver = (type) => {
-    setGameOver(true);
-
-    if (score > highScore) {
-      setHighScore(score);
-      localStorage.setItem("highScore", score.toString());
-    }
-
-    setCollisionType(type);
-  };
-
-  const handleResetGame = () => {
-    setScore(0);
-    setGameOver(false);
-  };
-
-  useEffect(() => {
-    const handleKeyPress = (e) => {
-      if (gameOver && e.key === "Enter") {
-        handleResetGame();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyPress);
-  }, [gameOver]);
-
   const [direction, setDirection] = useState(null);
 
   useEffect(() => {
