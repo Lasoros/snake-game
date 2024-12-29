@@ -14,8 +14,7 @@ const GameState = () => {
 
     if (score > highScore) {
       setHighScore(score);
-      let highScore = score;
-      // localStorage.setItem("highScore", score.toString());
+      sessionStorage.setItem("highScore", score.toString());
     }
 
     setCollisionType(type);
