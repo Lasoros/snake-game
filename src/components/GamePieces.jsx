@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 const GamePieces = ({ score, setScore, onGameOver }) => {
   const canvasRef = useRef();
   const SNAKE_SPEED = 10;
-  const [apple, setApple] = useState({ x: 180, y: 100 });
+  const [treat, setTreat] = useState({ x: 180, y: 100 });
   const [snake, setSnake] = useState([
     { x: 100, y: 50 },
     { x: 95, y: 50 },
@@ -22,16 +22,16 @@ const GamePieces = ({ score, setScore, onGameOver }) => {
       snake.forEach((snakePart) => {
         cntxt.beginPath();
         cntxt.rect(snakePart.x, snakePart.y, 14, 14);
-        cntxt.fillStyle = "#90EE90";
+        cntxt.fillStyle = "#8c9620";
         cntxt.fill();
         cntxt.closePath();
       });
     };
 
-    const drawApple = () => {
+    const drawTreat = () => {
       cntxt.beginPath();
-      cntxt.rect(apple.x, apple.y, 14, 14);
-      cntxt.fillStyle = "#FF0000";
+      cntxt.rect(treat.x, treat.y, 14, 14);
+      cntxt.fillStyle = "#ce7e00";
       cntxt.fill();
       cntxt.closePath();
     };
@@ -66,7 +66,7 @@ const GamePieces = ({ score, setScore, onGameOver }) => {
 
           newSnake[0] = snakeHead;
 
-          handleAppleHit(newSnake);
+          handleTreatHit(newSnake);
           handleWallHit(snakeHead);
           handleBodyHit(newSnake);
 
@@ -93,20 +93,20 @@ const GamePieces = ({ score, setScore, onGameOver }) => {
       }
 
       if (
-        snakeHead.y + SNAKE_SPEED > canvas.width ||
+        snakeHead.y + SNAKE_SPEED > canvas.height ||
         snakeHead.y + SNAKE_SPEED < 0
       ) {
         onGameOver("wall");
       }
     };
 
-    const handleAppleHit = (newSnake) => {
+    const handleTreatHit = (newSnake) => {
       const snakeHead = newSnake[0];
 
-      if (snakeHead.x === apple.x && snakeHead.y === apple.y) {
+      if (snakeHead.x === treat.x && snakeHead.y === treat.y) {
         setScore(score++);
 
-        setApple({
+        setTreat({
           x:
             Math.floor((Math.random() * canvas.width) / SNAKE_SPEED) *
             SNAKE_SPEED,
@@ -147,7 +147,7 @@ const GamePieces = ({ score, setScore, onGameOver }) => {
     const interval = setInterval(() => {
       cntxt.clearRect(0, 0, canvas.width, canvas.height);
       drawSnake();
-      drawApple();
+      drawTreat();
       snakeMove();
     }, 100);
 

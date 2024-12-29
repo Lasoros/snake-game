@@ -14,7 +14,8 @@ const GameState = () => {
 
     if (score > highScore) {
       setHighScore(score);
-      localStorage.setItem("highScore", score.toString());
+      let highScore = score;
+      // localStorage.setItem("highScore", score.toString());
     }
 
     setCollisionType(type);
@@ -43,8 +44,9 @@ const GameState = () => {
         <div className="game-over">
           <p>
             Game Over!{" "}
-            {collisionType === "wall" ? "You Hit the wall" : "You Ate yourself"}
-            !
+            {collisionType === "wall"
+              ? "Walls Hurt . . ."
+              : "Ouroboros You Are Not . . ."}
           </p>
           <p>Press Enter to reset the game.</p>
         </div>
